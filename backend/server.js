@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from "path";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
@@ -10,6 +11,8 @@ import { app } from "./socket/socket.js";
 import { server } from "./socket/socket.js";
 
 const PORT = process.env.PORT || 5000;
+
+const _dirname = path.resolve();
 
 dotenv.config();
 
@@ -26,10 +29,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/users", userRoutes);
 
-// server.get("/", (req, res) => {
-//   // root route https://localhost:5000/
-//   res.send("Hello World!!");
-// });
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(_dirname, "dist", "index.html"));
+});
 
 server.listen(PORT, () => {
   connectDB();
