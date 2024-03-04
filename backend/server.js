@@ -25,7 +25,7 @@ app.use(
   })
 );
 
-app.use("/api/auth", authRoutes);
+app.use("https://chat-app-0jrv.onrender.com/", authRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/users", userRoutes);
 
